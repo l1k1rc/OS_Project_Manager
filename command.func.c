@@ -105,79 +105,18 @@ void create_directory(char *buf){
 	}
 }
 void remove_file (char *file) {
-   int ret;
 
-   ret = remove(file);
-
-   if(ret == 0) {
-      printf(GREEN "File deleted successfully\n" RESET_COLOR);
-   } else {
-      printf("Error: unable to delete the file\n");
-   }
 }
 void testInode(){
-   FILE *file = fopen("notes.txt", "r");
-   int fd = fileno(file); /* Just for fun - extract the file descriptor from a C FILE struct */
-   struct stat s;
-   fstat(fd, &s);
-   printf("Last accessed %s", ctime(&s.st_atime));
+
 }
-void file_info(char *nameFile){
 
-	long size; //st_size can be a 64-bit int.
-	struct stat *buf = malloc(sizeof(struct stat)); //allocates memory for stat structure.
-
-	if(stat(nameFile, buf) == 0)
-	{
-	    size = buf->st_size;
-	    printf("Size of");
-	    printf(GREEN " %s" RESET_COLOR,nameFile);
-	    printf(" is %lld bytes.\n", size);
-	}
-	else
-	{
-	    perror(nameFile);    //if stat fails, print a diagnostic.
-	}
 }
 void createDir(char nameDirectory[]){
 
-	int pid = getpid();
-	char dirName[NAME_MAX+1];
-	char *prefix = nameDirectory;
-
-	snprintf(dirName, NAME_MAX + 1,"%s%d", prefix, pid);
-	printf("%s\n",dirName);
-	struct stat st = {0};
-	if (stat(dirName, &st) == -1) {
-		if(mkdir(dirName, 0755) != -1){
-			char libPath[PATH_MAX+1];
-			snprintf(libPath, PATH_MAX + 1, "%s/library.txt", dirName);
-			FILE *fLib = fopen(libPath , "w+");
-			fclose(fLib);
-		}else{
-			perror("mkdir: ");
-		}
-	}
 }
   
 long int findSize(char file_name[]) 
 { 
-    // opening the file in read mode 
-    FILE* fp = fopen(file_name, "r"); 
-  
-    // checking if the file exist or not 
-    if (fp == NULL) { 
-        printf("File Not Found!\n"); 
-        return -1; 
-    } 
-  
-    fseek(fp, 0L, SEEK_END); 
-  
-    // calculating the size of the file 
-    long int res = ftell(fp); 
-  
-    // closing the file 
-    fclose(fp); 
-  
-    return res; 
+
 } 
