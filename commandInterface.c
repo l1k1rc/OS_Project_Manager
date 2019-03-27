@@ -25,12 +25,15 @@
 
 #define DIM 300
 #define CYAN "\033[1;36m" // Bold cyan
-void talkWithServer(char buf[DIM], int *con,char *argv[],int argc);
+#define RED "\033[0;31m" // simple red
+#define RESET_COLOR "\033[0m"
+
+void talkWithUser(char buf[DIM], int *con,char *argv[],int argc);
 void vider_stdin(void);
 
 typedef struct disk {
 	int totalSize;
-	int inode;
+	int inodePosition;
 	char nameFile[];
 };
 /* 
@@ -47,21 +50,23 @@ int main (int argc, char *argv[]){
 	* First of all, we check if the program has been launched correctly.
  	*/
 	if(argc!=3){
-		printf("use: %s <nameFile> <memory>\n", argv[0]);
+		printf(RED "use: %s <nameFile> <memory>\n" RESET_COLOR, argv[0]);
 		return 1;
 	}
 	createDir(argv[1]);
+	//f=fopen(argv[1],"r");
+	
 	Vdisk.totalSize=(int) strtol(argv[2], (char **)NULL, 10);
 	strcpy(Vdisk.nameFile,argv[1]);
 	printf("Launching the directory [%s].... Memory assigned to %d bytes.\n", Vdisk.nameFile, Vdisk.totalSize);
 
 	while(connected==1){
-		talkWithServer(buf,&connected,argv,argc);
+		talkWithUser(buf,&connected,argv,argc);
 	}
 	printf(CYAN "Disconnected.\n");
 	return 0;
 }
-void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
+void talkWithUser(char buf[DIM], int *con,char *argv[],int argc){
     
 	/* for each command and each arguments associated */
 	char line[1024];
@@ -79,7 +84,7 @@ void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
 		if(line[0]=='\n') continue;
 		line[strlen(line)-1] = 0;
 		/* 
-		* In this case, we separate the command with 3 strings of character to use it 			* easily		
+		* In this case, we separate the command with 3 strings of character to use it easily		
 		*/
 		args = sscanf(line,"%s %s %s",cmd,arg1,arg2);
 		if(args==0) continue;
@@ -89,7 +94,7 @@ void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
 		}else if(!strcmp(cmd,"info")) {
 			if(args==2){
 				cursor = atoi(arg1);
-				printf("%d\n",cursor);	
+				file_info(arg1);	
 			}else{
 				printf("use: info <nameFile>\n");
 			}
@@ -115,7 +120,10 @@ void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
 				printf("use: info <nameFile>\n");
 			}
 		}else if(!strcmp(cmd,"debug")) {
-			
+			printf("The directory [%s] of size [%s] contains :");
+			printf("%d inode(s)");
+			printf("%d file(s) written in this session");
+			printf("%d file(s) written in this session");
 		} else if(!strcmp(cmd,"help")) {
 			printf("Commands are:\n");
 			printf("    info <name_file>\n");
@@ -139,4 +147,3 @@ void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
 		}
 	}
 }
-

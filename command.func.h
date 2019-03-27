@@ -16,4 +16,5 @@ void testInode();
 void file_info(char *nameFile);
 void createDir(char *nameDirectory);
 void create_file(char *buf);
+long int findSize(char file_name[]);
 #endif /* #ifndef __include_fichier_h__ */

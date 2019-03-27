@@ -130,7 +130,9 @@ void file_info(char *nameFile){
 	if(stat(nameFile, buf) == 0)
 	{
 	    size = buf->st_size;
-	    printf("Size of \"%s\" is %lld bytes.\n", nameFile, size);
+	    printf("Size of");
+	    printf(GREEN " %s" RESET_COLOR,nameFile);
+	    printf(" is %lld bytes.\n", size);
 	}
 	else
 	{
@@ -157,3 +159,25 @@ void createDir(char nameDirectory[]){
 		}
 	}
 }
+  
+long int findSize(char file_name[]) 
+{ 
+    // opening the file in read mode 
+    FILE* fp = fopen(file_name, "r"); 
+  
+    // checking if the file exist or not 
+    if (fp == NULL) { 
+        printf("File Not Found!\n"); 
+        return -1; 
+    } 
+  
+    fseek(fp, 0L, SEEK_END); 
+  
+    // calculating the size of the file 
+    long int res = ftell(fp); 
+  
+    // closing the file 
+    fclose(fp); 
+  
+    return res; 
+} 
