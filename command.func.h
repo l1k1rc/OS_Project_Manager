@@ -1,4 +1,10 @@
- 
+/*!
+ * @version 4
+ * @author Saint-Amand Matthieu, Castelain Julien, Hachoud Rassem
+ * @brief File header
+ * @file command.func.h
+ * @see command.func.c
+ */
 #ifndef include_fichier_h
 #define include_fichier_h
 void Usage();

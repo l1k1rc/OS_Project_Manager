@@ -1,7 +1,13 @@
 /*!
  * @version 4
  * @author Saint-Amand Matthieu, Castelain Julien, Hachoud Rassem
- * @brief 
+ * @brief The purpose of this file is to set up a shell-like management interface in which the memory, defined 
+ *  at program launch, limits the possibilities of manipulation within the directory.
+ *  The user will therefore be able to perform operations such as: 
+ *	-viewing file data 
+ *	-the visualization of the actions performed since the launch 
+ *	-the creation of a file or folder (with limited memory) inside the management directory 
+ *	-delete some data.
  * @file main.c
  *
  * @see command.func.c
@@ -112,11 +118,11 @@ void talkWithServer(char buf[DIM], int *con,char *argv[],int argc){
 			
 		} else if(!strcmp(cmd,"help")) {
 			printf("Commands are:\n");
-			printf("    info\n");
-			printf("    copy\n");
-			printf("    rem\n");
-			printf("    new\n");
-			printf("    delete  <inode>\n");
+			printf("    info <name_file>\n");
+			printf("    copy : indicate the source file then indicate the target file\n");
+			printf("    rem <name_file>\n");
+			printf("    new <name_file>\n");
+			printf("    debug\n");
 			printf("    cat     <inode>\n");
 			printf("    copyin  <file> <inode>\n");
 			printf("    copyout <inode> <file>\n");
