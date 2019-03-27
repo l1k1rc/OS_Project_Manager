@@ -26,6 +26,7 @@
 #define DIM 300
 #define CYAN "\033[1;36m" // Bold cyan
 #define RED "\033[0;31m" // simple red
+#define RED_BOLD "\033[1;31m"//bold red
 #define RESET_COLOR "\033[0m"
 
 void talkWithUser(char buf[DIM], int *con,char *argv[],int argc);
@@ -53,10 +54,19 @@ int main (int argc, char *argv[]){
 		printf(RED "use: %s <nameFile> <memory>\n" RESET_COLOR, argv[0]);
 		return 1;
 	}
+	if((int) strtol(argv[2], (char **)NULL, 10)<=10){
+		printf(RED_BOLD "Insufficient file size : Please, enter a size greater than 10kB.\n " RESET_COLOR);
+		return 1;
+	}
 	createDir(argv[1]);
 	//f=fopen(argv[1],"r");
-	
+	/* 
+	* The size of the disk that will be used as memory during the simulation is stored. 
+	* Each time a file is created, its size is allocated and stored in the static 
+	* structure variable Vdisk.
+	*/
 	Vdisk.totalSize=(int) strtol(argv[2], (char **)NULL, 10);
+	Vdisk.totalSize*=1000; // 1kB = 1000bytes
 	strcpy(Vdisk.nameFile,argv[1]);
 	printf("Launching the directory [%s].... Memory assigned to %d bytes.\n", Vdisk.nameFile, Vdisk.totalSize);
 
@@ -99,12 +109,7 @@ void talkWithUser(char buf[DIM], int *con,char *argv[],int argc){
 				printf("use: info <nameFile>\n");
 			}
 		}else if(!strcmp(cmd,"copy")) {
-			if(args==2){
-				cursor = atoi(arg1);
-				printf("%d\n",cursor);	
-			}else{
-				printf("use: info <nameFile>\n");
-			}
+				copy_file();
 		}else if(!strcmp(cmd,"rem")) {
 			if(args==2){
 				cursor = atoi(arg1);
@@ -131,9 +136,7 @@ void talkWithUser(char buf[DIM], int *con,char *argv[],int argc){
 			printf("    rem <name_file>\n");
 			printf("    new <name_file>\n");
 			printf("    debug\n");
-			printf("    cat     <inode>\n");
-			printf("    copyin  <file> <inode>\n");
-			printf("    copyout <inode> <file>\n");
+			printf("    copy\n");
 			printf("    help\n");
 			printf("    quit\n");
 			printf("    exit\n");
